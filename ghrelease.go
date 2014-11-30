@@ -1,10 +1,16 @@
 package main
 
-import flag "github.com/docker/docker/pkg/mflag"
+import (
+	"fmt"
+	"os/user"
+
+	flag "github.com/docker/docker/pkg/mflag"
+)
 
 // initialize flags
 var (
-	Config      = flag.String([]string{"c", "-config"}, "~/.config/ghrelease/config.json", "Set ghrelease config file")
+	// Config needs to be initted in init()
+	Config      *string
 	BuildFlags  = flag.String([]string{"b", "-buildflags"}, "", "Pass build flags to gox")
 	ForceCreate = flag.Bool([]string{"f", "-force"}, false, "Replace the asset if it already exists")
 	AssetName   = flag.String([]string{"n", "-name"}, "", "Set the name for the release asset")
@@ -14,6 +20,10 @@ var (
 )
 
 func init() {
+	CurrentUser, _ := user.Current()
+	DefaultConfigPath := fmt.Sprintf("%s/.config/ghrelease/config.json", CurrentUser.HomeDir)
+	Config = flag.String([]string{"c", "-config"}, DefaultConfigPath, "Set ghrelease config file")
+
 	flag.Parse()
 }
 
