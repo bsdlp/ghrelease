@@ -8,12 +8,12 @@ Golang GitHub release tool. Uses the execellent
 ```
 > ghrelease
 Usage of ghrelease:
-  -authfile="": Set the auth file for GitHub credentials
-  -create=false: Create release if it does not exist
-  -buildflags="": Pass build flags to gox
-  -force=false: Replace the asset if it already exists
-  -name: Set the name for the release asset
-  -prerelease=false: With -create, create as a dev release
-  -release="": Set the release name
-  -version: Print the name and version
+  -a, --authfile="": Set the auth file for GitHub credentials
+  -c, --create=false: Create release if it does not exist
+  -b, --buildflags="": Pass build flags to gox
+  -f, --force=false: Replace the asset if it already exists
+  -n, --name: Set the name for the release asset
+  -p, --prerelease=false: With -create, create as a dev release
+  -r, --release="": Set the release name
+  -v, --version: Print the name and version
 ```
