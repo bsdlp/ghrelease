@@ -10,6 +10,7 @@ Golang GitHub release tool. Uses the execellent
 Usage of ghrel:
   -authfile="": Set the auth file for GitHub credentials
   -create=false: Create release if it does not exist
+  -buildflags="": Pass build flags to gox
   -force=false: Replace the asset if it already exists
   -name: Set the name for the release asset
   -prerelease=false: With -create, create as a dev release
