@@ -6,8 +6,8 @@ Golang GitHub release tool. Uses the execellent
 ## Usage
 
 ```
-> ghrel
-Usage of ghrel:
+> ghrelease
+Usage of ghrelease:
   -authfile="": Set the auth file for GitHub credentials
   -create=false: Create release if it does not exist
   -buildflags="": Pass build flags to gox
