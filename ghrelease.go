@@ -1,9 +1,8 @@
 package main
 
-import (
-	flag "github.com/docker/docker/pkg/mflag"
-)
+import flag "github.com/docker/docker/pkg/mflag"
 
+// initialize flags
 var (
 	AuthFile    = flag.String([]string{"a", "-authfile"}, "", "Set the auth file for GitHub credentials")
 	CreateAsset = flag.Bool([]string{"c", "-create"}, false, "Create release if it does not exist")
@@ -14,6 +13,10 @@ var (
 	ReleaseName = flag.String([]string{"r", "-release"}, "", "Set the release name")
 	Version     = flag.Bool([]string{"v", "-version"}, false, "Print the name and version")
 )
+
+func init() {
+	flag.Parse()
+}
 
 func main() {
 }
