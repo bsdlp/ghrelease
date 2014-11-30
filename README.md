@@ -13,7 +13,7 @@ Usage of ghrelease:
   -b, --buildflags="": Pass build flags to gox
   -f, --force=false: Replace the asset if it already exists
   -n, --name: Set the name for the release asset
-  -p, --prerelease=false: With -create, create as a dev release
+  -p, --prerelease=false: With --create, create as a dev release
   -r, --release="": Set the release name
   -v, --version: Print the name and version
 ```
