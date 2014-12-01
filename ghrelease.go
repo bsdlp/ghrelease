@@ -15,7 +15,7 @@ type Config struct {
 // initialize flags
 var (
 	// Config needs to be initted in init()
-	Config      *string
+	ConfigPath  *string
 	BuildFlags  = flag.String([]string{"b", "-buildflags"}, "", "Pass build flags to gox")
 	ForceCreate = flag.Bool([]string{"f", "-force"}, false, "Replace the asset if it already exists")
 	AssetName   = flag.String([]string{"n", "-name"}, "", "Set the name for the release asset")
@@ -27,7 +27,7 @@ var (
 func init() {
 	CurrentUser, _ := user.Current()
 	DefaultConfigPath := fmt.Sprintf("%s/.config/ghrelease/config.json", CurrentUser.HomeDir)
-	Config = flag.String([]string{"c", "-config"}, DefaultConfigPath, "Set ghrelease config file")
+	ConfigPath = flag.String([]string{"c", "-config"}, DefaultConfigPath, "Set ghrelease config file")
 
 	flag.Parse()
 }
