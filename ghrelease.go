@@ -7,6 +7,11 @@ import (
 	flag "github.com/docker/docker/pkg/mflag"
 )
 
+type Config struct {
+	BuildFlags string
+	AuthToken  string
+}
+
 // initialize flags
 var (
 	// Config needs to be initted in init()
