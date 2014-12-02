@@ -1,7 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"os/user"
 
 	flag "github.com/docker/docker/pkg/mflag"
@@ -30,6 +33,16 @@ func init() {
 	ConfigPath = flag.String([]string{"c", "-config"}, DefaultConfigPath, "Set ghrelease config file")
 
 	flag.Parse()
+}
+
+func LoadConfig(ConfigPath *string) {
+	var ret Config
+	ConfigFile, err := ioutil.ReadFile(*ConfigPath)
+	err := json.Unmarshal(ConfigFile, &ret)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return ret
 }
 
 func main() {
