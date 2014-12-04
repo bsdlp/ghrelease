@@ -35,7 +35,7 @@ func init() {
 	flag.Parse()
 }
 
-func LoadConfig(ConfigPath *string) {
+func LoadConfig(ConfigPath *string) Config {
 	var ret Config
 	ConfigFile, err := ioutil.ReadFile(*ConfigPath)
 	err := json.Unmarshal(ConfigFile, &ret)
