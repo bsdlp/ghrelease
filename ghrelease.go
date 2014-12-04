@@ -27,14 +27,6 @@ var (
 	Version     = flag.Bool([]string{"v", "-version"}, false, "Print the name and version")
 )
 
-func init() {
-	CurrentUser, _ := user.Current()
-	DefaultConfigPath := fmt.Sprintf("%s/.config/ghrelease/config.json", CurrentUser.HomeDir)
-	ConfigPath = flag.String([]string{"c", "-config"}, DefaultConfigPath, "Set ghrelease config file")
-
-	flag.Parse()
-}
-
 func LoadConfig(ConfigPath *string) Config {
 	var ret Config
 	ConfigFile, err := ioutil.ReadFile(*ConfigPath)
@@ -43,6 +35,16 @@ func LoadConfig(ConfigPath *string) Config {
 		log.Fatalln(err)
 	}
 	return ret
+}
+
+func init() {
+	CurrentUser, _ := user.Current()
+	DefaultConfigPath := fmt.Sprintf("%s/.config/ghrelease/config.json", CurrentUser.HomeDir)
+	ConfigPath = flag.String([]string{"c", "-config"}, DefaultConfigPath, "Set ghrelease config file")
+
+	flag.Parse()
+
+	GHRConfig := LoadConfig(ConfigPath)
 }
 
 func main() {
