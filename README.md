@@ -16,3 +16,18 @@ Usage of ./ghrelease:
   -r, --release=""                                  Create the release if it does not exist and set the release name
   -v, --version=false                               Print the name and version
 ```
+## Configuration
+
+* `~/.config/ghrelease/config.json`:
+```json
+{
+    "auth_token": "supersekritgithubapptoken",
+    "build_flags": [
+        "-parallel=30",
+        "-verbose"
+    ]
+}
+```
+
+`auth_token` can also be provided by the `GHRELEASE_AUTH_TOKEN` environment
+variable.
