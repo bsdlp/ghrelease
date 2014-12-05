@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"os/user"
 
 	flag "github.com/docker/docker/pkg/mflag"
@@ -45,6 +46,14 @@ func init() {
 	flag.Parse()
 
 	GHRConfig := LoadConfig(ConfigPath)
+
+	EnvAuthToken := os.Getenv("GHRELEASE_AUTH_TOKEN")
+	if EnvAuthToken != nil {
+		GHRConfig.AuthToken = EnvAuthToken
+	}
+	if GHConfig.AuthToken == nil {
+		log.Println("auth_token is required to upload release assets to GitHub")
+	}
 }
 
 func main() {
