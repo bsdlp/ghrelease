@@ -12,8 +12,8 @@ import (
 )
 
 type Config struct {
-	BuildFlags string `json:"build_flags,omitempty"`
-	AuthToken  string `json:"auth_token"`
+	BuildFlags []string `json:"build_flags,omitempty"`
+	AuthToken  string   `json:"auth_token"`
 }
 
 // initialize flags
