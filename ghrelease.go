@@ -44,17 +44,16 @@ func init() {
 	ConfigPath = flag.String([]string{"c", "-config"}, DefaultConfigPath, "Set ghrelease config file")
 
 	flag.Parse()
+}
 
+func main() {
 	GHRConfig := LoadConfig(ConfigPath)
 
 	EnvAuthToken := os.Getenv("GHRELEASE_AUTH_TOKEN")
 	if EnvAuthToken != "" {
 		GHRConfig.AuthToken = EnvAuthToken
 	}
-	if GHRConfig.AuthToken == nil {
+	if GHRConfig.AuthToken == "" {
 		log.Println("auth_token is required to upload release assets to GitHub")
 	}
-}
-
-func main() {
 }
