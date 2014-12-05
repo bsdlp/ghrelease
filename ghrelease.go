@@ -31,7 +31,7 @@ var (
 func LoadConfig(ConfigPath *string) Config {
 	var ret Config
 	ConfigFile, err := ioutil.ReadFile(*ConfigPath)
-	err := json.Unmarshal(ConfigFile, &ret)
+	err = json.Unmarshal(ConfigFile, &ret)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -48,10 +48,10 @@ func init() {
 	GHRConfig := LoadConfig(ConfigPath)
 
 	EnvAuthToken := os.Getenv("GHRELEASE_AUTH_TOKEN")
-	if EnvAuthToken != nil {
+	if EnvAuthToken != "" {
 		GHRConfig.AuthToken = EnvAuthToken
 	}
-	if GHConfig.AuthToken == nil {
+	if GHRConfig.AuthToken == nil {
 		log.Println("auth_token is required to upload release assets to GitHub")
 	}
 }
