@@ -8,7 +8,10 @@ import (
 	"os"
 	"os/user"
 
+	"code.google.com/p/goauth2/oauth"
+
 	flag "github.com/docker/docker/pkg/mflag"
+	"github.com/google/go-github/github"
 )
 
 type Config struct {
@@ -56,4 +59,9 @@ func main() {
 	if GHRConfig.AuthToken == "" {
 		log.Println("auth_token is required to upload release assets to GitHub")
 	}
+
+	transport := &oauth.Transport{
+		Token: &oauth.Token{AccessToken: GHRConfig.AuthToken},
+	}
+	client := github.NewClient(transport.Client())
 }
