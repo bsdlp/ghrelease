@@ -2,11 +2,11 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
 	"os/user"
+	"path"
 
 	"code.google.com/p/goauth2/oauth"
 
@@ -44,13 +44,13 @@ func LoadConfig(ConfigPath *string) Config {
 
 func init() {
 	CurrentUser, _ := user.Current()
-	DefaultConfigPath := fmt.Sprintf("%s/.config/ghrelease/config.json", CurrentUser.HomeDir)
+	DefaultConfigPath := path.Join(CurrentUser.HomeDir, ".config/ghrelease/config.json")
 	ConfigPath = flag.String([]string{"c", "-config"}, DefaultConfigPath, "Set ghrelease config file")
 
 	flag.Parse()
 
 	GoPath := os.Getenv("GOPATH")
-	GoxPath = fmt.Sprintf("%s/bin/gox", GoPath)
+	GoxPath = path.Join(GoPath, "bin/gox")
 }
 
 func main() {
