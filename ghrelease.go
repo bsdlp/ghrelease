@@ -29,6 +29,7 @@ var (
 	Prerelease  = flag.Bool([]string{"p", "-prerelease"}, false, "With -create, create as a dev release")
 	ReleaseName = flag.String([]string{"r", "-release"}, "", "Create the release if it does not exist and set the release name")
 	Version     = flag.Bool([]string{"v", "-version"}, false, "Print the name and version")
+	GoxPath     string
 )
 
 func LoadConfig(ConfigPath *string) Config {
@@ -47,6 +48,9 @@ func init() {
 	ConfigPath = flag.String([]string{"c", "-config"}, DefaultConfigPath, "Set ghrelease config file")
 
 	flag.Parse()
+
+	GoPath := os.Getenv("GOPATH")
+	GoxPath = fmt.Sprintf("%s/bin/gox", GoPath)
 }
 
 func main() {
