@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"os/user"
 	"path"
 
@@ -49,8 +50,10 @@ func init() {
 
 	flag.Parse()
 
-	GoPath := os.Getenv("GOPATH")
-	GoxPath = path.Join(GoPath, "bin/gox")
+	GoxPath, err = exec.LookPath("gox")
+	if err != nil {
+		log.Fatalln("gox is not in your $PATH")
+	}
 }
 
 func main() {
