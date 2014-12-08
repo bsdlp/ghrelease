@@ -47,13 +47,18 @@ func init() {
 	CurrentUser, _ := user.Current()
 	DefaultConfigPath := path.Join(CurrentUser.HomeDir, ".config/ghrelease/config.json")
 	ConfigPath = flag.String([]string{"c", "-config"}, DefaultConfigPath, "Set ghrelease config file")
+	GoxPath = flag.String([]string{"g", "-gox"}, FindGox(), "Path to gox")
 
 	flag.Parse()
 
-	GoxPath, err = exec.LookPath("gox")
+}
+
+func FindGox() string {
+	path, err = exec.LookPath("gox")
 	if err != nil {
 		log.Fatalln("gox is not in your $PATH")
 	}
+	return path
 }
 
 func main() {
