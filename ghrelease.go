@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"io/ioutil"
 	"log"
@@ -59,6 +60,16 @@ func FindGox() string {
 		log.Fatalln("gox is not in your $PATH")
 	}
 	return path
+}
+
+func Gox(BuildFlags []string) {
+	cmd := exec.Command(GoxPath, BuildFlags)
+	var out bytes.Buffer
+	cmd.Stdout = &out
+	err := cmd.Run()
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
 
 func main() {
