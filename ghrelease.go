@@ -51,7 +51,6 @@ func init() {
 	GoxPath = flag.String([]string{"g", "-gox"}, FindGox(), "Path to gox")
 
 	flag.Parse()
-
 }
 
 func FindGox() string {
@@ -62,14 +61,15 @@ func FindGox() string {
 	return path
 }
 
-func Gox(BuildFlags []string) {
-	cmd := exec.Command(GoxPath, BuildFlags)
+func Gox(BuildFlags *[]string) *string {
+	cmd := exec.Command(GoxPath, *BuildFlags)
 	var out bytes.Buffer
 	cmd.Stdout = &out
 	err := cmd.Run()
 	if err != nil {
 		log.Fatalln(err)
 	}
+	return *out.String()
 }
 
 func main() {
@@ -87,4 +87,6 @@ func main() {
 		Token: &oauth.Token{AccessToken: GHRConfig.AuthToken},
 	}
 	client := github.NewClient(transport.Client())
+
+	BuildOutput := Gox(BuildFlags)
 }
