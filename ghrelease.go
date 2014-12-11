@@ -43,14 +43,14 @@ func init() {
 	flag.Parse()
 }
 
-func LoadConfig(ConfigPath *string) Config {
+func LoadConfig(ConfigPath *string) *Config {
 	var ret Config
 	ConfigFile, err := ioutil.ReadFile(*ConfigPath)
 	err = json.Unmarshal(ConfigFile, &ret)
 	if err != nil {
 		log.Fatalln(err)
 	}
-	return ret
+	return &ret
 }
 
 func FindGox() *string {
