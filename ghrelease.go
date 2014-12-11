@@ -34,6 +34,15 @@ var (
 	GoxPath     *string
 )
 
+func init() {
+	CurrentUser, _ := user.Current()
+	DefaultConfigPath := path.Join(CurrentUser.HomeDir, ".config/ghrelease/config.json")
+	ConfigPath = flag.String([]string{"c", "-config"}, DefaultConfigPath, "Set ghrelease config file")
+	GoxPath = flag.String([]string{"g", "-gox"}, *FindGox(), "Path to gox")
+
+	flag.Parse()
+}
+
 func LoadConfig(ConfigPath *string) Config {
 	var ret Config
 	ConfigFile, err := ioutil.ReadFile(*ConfigPath)
@@ -42,15 +51,6 @@ func LoadConfig(ConfigPath *string) Config {
 		log.Fatalln(err)
 	}
 	return ret
-}
-
-func init() {
-	CurrentUser, _ := user.Current()
-	DefaultConfigPath := path.Join(CurrentUser.HomeDir, ".config/ghrelease/config.json")
-	ConfigPath = flag.String([]string{"c", "-config"}, DefaultConfigPath, "Set ghrelease config file")
-	GoxPath = flag.String([]string{"g", "-gox"}, *FindGox(), "Path to gox")
-
-	flag.Parse()
 }
 
 func FindGox() *string {
