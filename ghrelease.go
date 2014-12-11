@@ -31,7 +31,7 @@ var (
 	Prerelease  = flag.Bool([]string{"p", "-prerelease"}, false, "With -create, create as a dev release")
 	ReleaseName = flag.String([]string{"r", "-release"}, "", "Create the release if it does not exist and set the release name")
 	Version     = flag.Bool([]string{"v", "-version"}, false, "Print the name and version")
-	GoxPath     string
+	GoxPath     *string
 )
 
 func LoadConfig(ConfigPath *string) Config {
@@ -48,28 +48,29 @@ func init() {
 	CurrentUser, _ := user.Current()
 	DefaultConfigPath := path.Join(CurrentUser.HomeDir, ".config/ghrelease/config.json")
 	ConfigPath = flag.String([]string{"c", "-config"}, DefaultConfigPath, "Set ghrelease config file")
-	GoxPath = flag.String([]string{"g", "-gox"}, FindGox(), "Path to gox")
+	GoxPath = flag.String([]string{"g", "-gox"}, *FindGox(), "Path to gox")
 
 	flag.Parse()
 }
 
-func FindGox() string {
-	path, err = exec.LookPath("gox")
+func FindGox() *string {
+	Path, err := exec.LookPath("gox")
 	if err != nil {
 		log.Fatalln("gox is not in your $PATH")
 	}
-	return path
+	return &Path
 }
 
-func Gox(BuildFlags *[]string) *string {
-	cmd := exec.Command(GoxPath, *BuildFlags)
+func Gox(BuildFlags *string) *string {
+	cmd := exec.Command(*GoxPath, *BuildFlags)
 	var out bytes.Buffer
 	cmd.Stdout = &out
 	err := cmd.Run()
 	if err != nil {
 		log.Fatalln(err)
 	}
-	return *out.String()
+	output := out.String()
+	return &output
 }
 
 func main() {
