@@ -38,7 +38,7 @@ func init() {
 	CurrentUser, _ := user.Current()
 	DefaultConfigPath := path.Join(CurrentUser.HomeDir, ".config/ghrelease/config.json")
 	ConfigPath = flag.String([]string{"c", "-config"}, DefaultConfigPath, "Set ghrelease config file")
-	GoxPath = flag.String([]string{"g", "-gox"}, *FindGox(), "Path to gox")
+	GoxPath = flag.String([]string{"g", "-gox"}, FindGox(), "Path to gox")
 
 	flag.Parse()
 }
@@ -53,15 +53,15 @@ func LoadConfig(ConfigPath *string) *Config {
 	return &ret
 }
 
-func FindGox() *string {
+func FindGox() string {
 	Path, err := exec.LookPath("gox")
 	if err != nil {
 		log.Fatalln("gox is not in your $PATH")
 	}
-	return &Path
+	return Path
 }
 
-func Gox(BuildFlags *string) *string {
+func Build(BuildFlags *string) string {
 	cmd := exec.Command(*GoxPath, *BuildFlags)
 	var out bytes.Buffer
 	cmd.Stdout = &out
@@ -70,7 +70,7 @@ func Gox(BuildFlags *string) *string {
 		log.Fatalln(err)
 	}
 	output := out.String()
-	return &output
+	return output
 }
 
 func main() {
@@ -89,5 +89,5 @@ func main() {
 	}
 	client := github.NewClient(transport.Client())
 
-	BuildOutput := Gox(BuildFlags)
+	BuildOutput := Build(BuildFlags)
 }
