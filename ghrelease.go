@@ -17,28 +17,24 @@ import (
 )
 
 type Config struct {
-	BuildFlags []string `json:"build_flags,omitempty"`
-	AuthToken  string   `json:"auth_token"`
+	AuthToken string `json:"auth_token"`
 }
 
 // initialize flags
 var (
 	// Config needs to be initted in init()
 	ConfigPath  *string
-	BuildFlags  = flag.String([]string{"b", "-buildflags"}, "", "Pass build flags to gox")
 	ForceCreate = flag.Bool([]string{"f", "-force"}, false, "Replace the asset if it already exists")
 	AssetName   = flag.String([]string{"n", "-name"}, "", "Set the name for the release asset")
 	Prerelease  = flag.Bool([]string{"p", "-prerelease"}, false, "With -create, create as a dev release")
 	ReleaseName = flag.String([]string{"r", "-release"}, "", "Create the release if it does not exist and set the release name")
 	Version     = flag.Bool([]string{"v", "-version"}, false, "Print the name and version")
-	GoxPath     *string
 )
 
 func init() {
 	CurrentUser, _ := user.Current()
 	DefaultConfigPath := path.Join(CurrentUser.HomeDir, ".config/ghrelease/config.json")
 	ConfigPath = flag.String([]string{"c", "-config"}, DefaultConfigPath, "Set ghrelease config file")
-	GoxPath = flag.String([]string{"g", "-gox"}, FindGox(), "Path to gox")
 
 	flag.Parse()
 }
@@ -51,26 +47,6 @@ func LoadConfig(ConfigPath *string) *Config {
 		log.Fatalln(err)
 	}
 	return &ret
-}
-
-func FindGox() string {
-	Path, err := exec.LookPath("gox")
-	if err != nil {
-		log.Fatalln("gox is not in your $PATH")
-	}
-	return Path
-}
-
-func Build(BuildFlags *string) string {
-	cmd := exec.Command(*GoxPath, *BuildFlags)
-	var out bytes.Buffer
-	cmd.Stdout = &out
-	err := cmd.Run()
-	if err != nil {
-		log.Fatalln(err)
-	}
-	output := out.String()
-	return output
 }
 
 func main() {
@@ -88,6 +64,4 @@ func main() {
 		Token: &oauth.Token{AccessToken: GHRConfig.AuthToken},
 	}
 	client := github.NewClient(transport.Client())
-
-	BuildOutput := Build(BuildFlags)
 }

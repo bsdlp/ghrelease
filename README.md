@@ -1,14 +1,12 @@
 # ghrelease
 
-Golang GitHub release tool. Uses the execellent
-[mitchellh/gox](https://github.com/mitchellh/gox) tool.
+Golang GitHub release tool.
 
 ## Usage
 
 ```
 > ghrelease
 Usage of ./ghrelease:
-  -b, --buildflags=""                               Pass build flags to gox
   -c, --config="~/.config/ghrelease/config.json"    Set ghrelease config file
   -f, --force=false                                 Replace the asset if it already exists
   -n, --name=""                                     Set the name for the release asset
@@ -21,11 +19,7 @@ Usage of ./ghrelease:
 * `~/.config/ghrelease/config.json`:
 ```json
 {
-    "auth_token": "supersekritgithubapptoken",
-    "build_flags": [
-        "-parallel=30",
-        "-verbose"
-    ]
+    "auth_token": "supersekritgithubapptoken"
 }
 ```
 
